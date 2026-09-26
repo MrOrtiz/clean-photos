@@ -230,6 +230,22 @@ def _cascade(name: str) -> cv2.CascadeClassifier:
     return _CASCADES[name]
 
 
+def check_face_detector() -> None:
+    """OpenCV 5 moved the Haar face detector out of opencv-python, so fail
+    early with instructions instead of a cryptic error mid-run."""
+    ok = hasattr(cv2, "CascadeClassifier") and hasattr(cv2, "data")
+    if ok:
+        ok = not _cascade("haarcascade_frontalface_alt2.xml").empty()
+    if not ok:
+        sys.exit(
+            f"Face detection is unavailable in OpenCV {cv2.__version__}: version 5 "
+            "removed the built-in face detector this script uses.\n"
+            "Fix: install OpenCV 4 instead:\n"
+            "  python -m pip uninstall -y opencv-python opencv-contrib-python\n"
+            '  python -m pip install "opencv-python<5"\n'
+            "(Or run with --mode full to skip face crops.)")
+
+
 def _overlap(a, b) -> float:
     """Intersection over the SMALLER box, so a box nested inside another
     (frontal + profile detector firing on the same head) counts as duplicate."""
@@ -337,6 +353,8 @@ def main() -> None:
               "or IrfanView, choosing the LARGEST resolution for .pcd files.\n")
     if not images:
         sys.exit("No images found.")
+    if args.mode in ("both", "faces"):
+        check_face_detector()
 
     upscaler = Upscaler(args.model, Path(__file__).resolve().parent, tile=args.tile)
     denoise_strength = args.denoise if args.denoise is not None else (

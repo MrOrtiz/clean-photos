@@ -26,6 +26,8 @@ python -m venv .venv
 pip install -r requirements.txt
 ```
 
+**Note:** OpenCV 5 removed the face detector this script uses, so `requirements.txt` pins OpenCV 4 (`opencv-python<5`). If you install packages by hand, use `pip install "opencv-python<5"` (keep the quotes in PowerShell).
+
 If you already run ComfyUI, its Python environment already has PyTorch and spandrel. Run the script with that interpreter and install `opencv-python` if it's missing.
 
 ## Usage
