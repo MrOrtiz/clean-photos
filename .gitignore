@@ -1,0 +1,21 @@
+# Never commit photos, outputs, or downloaded model weights
+*.jpg
+*.jpeg
+*.png
+*.tif
+*.tiff
+*.bmp
+*.webp
+*.pcd
+*.sfw
+*.pwp
+report.csv
+models/
+*.pth
+*.safetensors
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/

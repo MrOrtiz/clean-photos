@@ -1,0 +1,7 @@
+# Install PyTorch FIRST with the command for your system from https://pytorch.org
+# (on Windows, plain "pip install torch" gives a CPU-only build).
+# Without PyTorch the script still runs, using plain Lanczos resizing.
+numpy
+opencv-python
+pillow
+spandrel
